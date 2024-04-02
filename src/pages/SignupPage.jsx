@@ -34,4 +34,4 @@ function SignupPage() {
   );
 }
 
-export default LoginPage;
+export default SignupPage;
