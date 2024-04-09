@@ -1,0 +1,1 @@
+export default "https://integrador-back-uk8c.onrender.com"
