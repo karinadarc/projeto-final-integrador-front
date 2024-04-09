@@ -15,7 +15,7 @@ permissions:
   deployments: write
 
 jobs:
-  testes:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
