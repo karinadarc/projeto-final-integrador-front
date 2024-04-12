@@ -4,12 +4,27 @@ import horizontalLineThick from "../../assets/horizontal-line-thick.svg"
 import { goToHomePage, goToSignupPage } from "../../routes/coordinator"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
+
 import axios from "axios"
 import BASE_URL from "../../constants/BASE_URL"
 import {FooterLineImage,LoginForm, MainContainer} from "./LoginPageStyle"
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Button
+} from '@chakra-ui/react'
 
 function LoginPage() {
   const navigate = useNavigate()
+  const [mensagem, setMensagem] = useState("");
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const [form, setForm] = useState({
     email: "",
@@ -30,12 +45,37 @@ function LoginPage() {
 
     axios.post(BASE_URL + "/users/login", body)
       .then((res) => {
-        window.localStorage.setItem("token-labeddit", res.data.token)
+        window.localStorage.setItem("token-integrador", res.data.token)
         goToHomePage(navigate)
       })
       .catch((err) => {
-        console.log(err)
+        setMensagem(err.response.data.error)
+        onOpen()
       })
+  }
+
+  function modal() {
+
+    return (
+      <>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Ops</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              {mensagem}
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme='blue' mr={3} onClick={onClose}>
+                OK
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </>
+    )
   }
 
   return (
@@ -45,7 +85,9 @@ function LoginPage() {
         <img src={mainLogo} alt="Labeddit" />
         <p>O projeto de rede social da Labenu</p>
       </div>
-      
+
+      {modal()}
+
       <LoginForm onSubmit={login}>
         <div className="inputs-container">
           <input
