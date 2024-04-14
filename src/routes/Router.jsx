@@ -9,6 +9,7 @@ function Router() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/home" element={<HomePage />} />
         <Route index element={<LoginPage />} />
       </Routes>
     </BrowserRouter>
