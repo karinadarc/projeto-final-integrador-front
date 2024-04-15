@@ -1,13 +1,13 @@
-import mainLogo from "../../assets/main-logo.svg"
-import horizontalLine from "../../assets/horizontal-line.svg"
-import horizontalLineThick from "../../assets/horizontal-line-thick.svg"
-import { goToHomePage, goToSignupPage } from "../../routes/coordinator"
-import { useNavigate } from "react-router-dom"
-import { useState } from "react"
+import mainLogo from "../../assets/main-logo.svg";
+import horizontalLine from "../../assets/horizontal-line.svg";
+import horizontalLineThick from "../../assets/horizontal-line-thick.svg";
+import { goToHomePage, goToSignupPage } from "../../routes/coordinator";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-import axios from "axios"
-import BASE_URL from "../../constants/BASE_URL"
-import {FooterLineImage,LoginForm, MainContainer} from "./LoginPageStyle"
+import axios from "axios";
+import BASE_URL from "../../constants/BASE_URL";
+import { FooterLineImage, MainContainer } from "./LoginPageStyle";
 import {
   Modal,
   ModalOverlay,
@@ -17,45 +17,46 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-  Button
-} from '@chakra-ui/react'
+  Button,
+} from "@chakra-ui/react";
+import Formulario from "../../componentes/Formulario";
 
 function LoginPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [mensagem, setMensagem] = useState("");
 
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [form, setForm] = useState({
     email: "",
-    password: ""
-  })
+    password: "",
+  });
 
   const onChangeForm = (event) => {
-    setForm({...form, [event.target.name]: event.target.value})
-  }
+    setForm({ ...form, [event.target.name]: event.target.value });
+  };
 
   const login = (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
     const body = {
       email: form.email,
-      password: form.password
-    }
+      password: form.password,
+    };
 
-    axios.post(BASE_URL + "/users/login", body)
+    axios
+      .post(BASE_URL + "/users/login", body)
       .then((res) => {
-        window.localStorage.setItem("token-integrador", res.data.token)
-        goToHomePage(navigate)
+        window.localStorage.setItem("token-integrador", res.data.token);
+        goToHomePage(navigate);
       })
       .catch((err) => {
-        setMensagem(err.response.data.error)
-        onOpen()
-      })
-  }
+        setMensagem(err.response.data.error);
+        onOpen();
+      });
+  };
 
   function modal() {
-
     return (
       <>
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -63,24 +64,21 @@ function LoginPage() {
           <ModalContent>
             <ModalHeader>Ops</ModalHeader>
             <ModalCloseButton />
-            <ModalBody>
-              {mensagem}
-            </ModalBody>
+            <ModalBody>{mensagem}</ModalBody>
 
             <ModalFooter>
-              <Button colorScheme='blue' mr={3} onClick={onClose}>
+              <Button colorScheme="blue" mr={3} onClick={onClose}>
                 OK
               </Button>
             </ModalFooter>
           </ModalContent>
         </Modal>
       </>
-    )
+    );
   }
 
   return (
     <MainContainer>
-
       <div className="logo-container">
         <img src={mainLogo} alt="Labeddit" />
         <p>O projeto de rede social da Labenu</p>
@@ -88,7 +86,7 @@ function LoginPage() {
 
       {modal()}
 
-      <LoginForm onSubmit={login}>
+      <Formulario onSubmit={login}>
         <div className="inputs-container">
           <input
             name="email"
@@ -111,16 +109,23 @@ function LoginPage() {
         </div>
 
         <div className="buttons-container">
-          <button className="primary" type="submit">Continuar</button>
+          <button className="primary" type="submit">
+            Continuar
+          </button>
 
           <img src={horizontalLine} alt="Horizontal line" />
-          <button onClick={() => goToSignupPage(navigate)}>Crie uma conta</button>
+          <button onClick={() => goToSignupPage(navigate)}>
+            Crie uma conta
+          </button>
         </div>
-      </LoginForm>
+      </Formulario>
 
-      <FooterLineImage src={horizontalLineThick} alt="Thicker Horizontal line" />
+      <FooterLineImage
+        src={horizontalLineThick}
+        alt="Thicker Horizontal line"
+      />
     </MainContainer>
-  )
+  );
 }
 
 export default LoginPage;
