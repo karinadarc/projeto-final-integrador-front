@@ -5,6 +5,8 @@ import { useState } from "react"
 import BASE_URL from "../../constants/BASE_URL"
 import { goToHomePage } from "../../routes/coordinator"
 import axios from "axios"
+import MainContainer from "../../componentes/MainContainer"
+import HeaderPrincipal from "../../componentes/HeaderPrincipal"
 
 function SignupPage() {
   const navigate = useNavigate()
@@ -39,11 +41,8 @@ function SignupPage() {
   }
 
   return (
-    <main>
-      <header>
-        <img src={headerLogo} alt="Labeddit logo" />
-        <Link to={"/login"}>Entrar</Link>
-      </header>
+    <MainContainer>
+      <HeaderPrincipal exibirX={false} texto={"Entrar"} rotaTexto={"/login"}></HeaderPrincipal>
 
       <h1>Olá, boas vindas ao LabEddit ;)</h1>
 
@@ -89,7 +88,7 @@ function SignupPage() {
       </form>
 
       <img src={horizontalLineThick} alt="Thicker Horizontal line" />
-    </main>
+    </MainContainer>
   )
 }
 
