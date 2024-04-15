@@ -2,7 +2,7 @@ import React from "react";
 import useRequestData from "../Hooks/useRequestData";
 import MainContainer from "../componentes/MainContainer";
 import CardPost from "../componentes/Card";
-import { Spinner } from '@chakra-ui/react'
+import { Center, Spinner, SimpleGrid, Divider } from "@chakra-ui/react";
 import HeaderPrincipal from "../componentes/HeaderPrincipal";
 
 function HomePage() {
@@ -11,11 +11,18 @@ function HomePage() {
   return (
     <MainContainer>
       <HeaderPrincipal exibirX={false}></HeaderPrincipal>
-      {isLoading
-        ? <Spinner/>
-        : posts.map((post) => {
-            return( <CardPost key={post.id} post={post} ></CardPost>);
-          })}
+      <Divider />
+      <SimpleGrid columns={1} spacingY={"10px"}>
+        {isLoading ? (
+          <Center>
+            <Spinner />
+          </Center>
+        ) : (
+          posts.map((post) => {
+            return <CardPost key={post.id} post={post}></CardPost>;
+          })
+        )}
+      </SimpleGrid>
     </MainContainer>
   );
 }
