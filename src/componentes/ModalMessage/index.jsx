@@ -1,15 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
 import {
+  Button,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Button,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
 } from "@chakra-ui/react";
+import React from "react";
 
 const ModalMessage = ({ isOpen, onClose, mensagem }) => {
   return (
