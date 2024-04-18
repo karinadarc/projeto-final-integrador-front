@@ -8,23 +8,14 @@ import { useState } from "react";
 import axios from "axios";
 import BASE_URL from "../../constants/BASE_URL";
 import { FooterLineImage, MainContainer } from "./LoginPageStyle";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-  Button,
-} from "@chakra-ui/react";
+import { useDisclosure, Spinner, Flex, Center } from "@chakra-ui/react";
 import Formulario from "../../componentes/Formulario";
+import ModalMessage from "../../componentes/ModalMessage";
 
 function LoginPage() {
   const navigate = useNavigate();
   const [mensagem, setMensagem] = useState("");
-
+  const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [form, setForm] = useState({
@@ -44,6 +35,8 @@ function LoginPage() {
       password: form.password,
     };
 
+    setIsLoading(true);
+
     axios
       .post(BASE_URL + "/users/login", body)
       .then((res) => {
@@ -53,29 +46,11 @@ function LoginPage() {
       .catch((err) => {
         setMensagem(err.response.data.error);
         onOpen();
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
-
-  function modal() {
-    return (
-      <>
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Ops</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>{mensagem}</ModalBody>
-
-            <ModalFooter>
-              <Button colorScheme="blue" mr={3} onClick={onClose}>
-                OK
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </>
-    );
-  }
 
   return (
     <MainContainer>
@@ -84,7 +59,24 @@ function LoginPage() {
         <p>O projeto de rede social da Labenu</p>
       </div>
 
-      {modal()}
+      {isLoading && (
+        <Flex justifyContent={"center"}>
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="orange"
+            size="xl"
+          />
+        </Flex>
+      )}
+
+      <ModalMessage
+        mensagem={mensagem}
+        onClose={onClose}
+        isOpen={isOpen}
+        onOpen={onOpen}
+      ></ModalMessage>
 
       <Formulario onSubmit={login}>
         <div className="inputs-container">

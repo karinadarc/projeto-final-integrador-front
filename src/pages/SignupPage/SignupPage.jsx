@@ -1,13 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
-import horizontalLineThick from "../../assets/horizontal-line-thick.svg";
+import { Box, Flex, Heading, Text, Link, Checkbox } from "@chakra-ui/react";
+import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Formulario from "../../componentes/Formulario";
+import HeaderPrincipal from "../../componentes/HeaderPrincipal";
+import MainContainer from "../../componentes/MainContainer";
 import BASE_URL from "../../constants/BASE_URL";
 import { goToHomePage } from "../../routes/coordinator";
-import axios from "axios";
-import MainContainer from "../../componentes/MainContainer";
-import HeaderPrincipal from "../../componentes/HeaderPrincipal";
-import { Heading } from "@chakra-ui/react";
-import Formulario from "../../componentes/Formulario";
 
 function SignupPage() {
   const navigate = useNavigate();
@@ -83,30 +82,41 @@ function SignupPage() {
           />
         </div>
 
-        <section>
-          <h2>
-            Ao continuar, você concorda com o nosso <a>Contrato de usuário</a> e
-            nossa <a>Política de Privacidade</a>
-          </h2>
-          <input
-            name="acceptEmail"
-            value={form.acceptEmail}
-            type="checkbox"
-            onChange={onChangeForm}
-          />
-          <label>
-            Eu concordo em receber emails sobre coisas legais no Labeddit
-          </label>
-        </section>
-
-        <div className="buttons-container">
-          <button className="primary" type="submit">
-            Cadastrar
-          </button>
-        </div>
+        <Flex direction={"column"} gap={3}>
+          <Box>
+            <Text>
+              Ao continuar, você concorda com o nosso{" "}
+              <Link href="#" isExternal color={"orange"}>
+                Contrato de usuário
+              </Link>{" "}
+              e nossa{" "}
+              <Link href="#" isExternal color={"orange"}>
+                Política de Privacidade
+              </Link>
+            </Text>
+          </Box>
+          <Box>
+            <Flex>
+              <Checkbox
+                name="acceptEmail"
+                value={form.acceptEmail}
+                onChange={onChangeForm}
+                colorScheme="orange"
+                required
+              >
+                Eu concordo em receber emails sobre coisas legais no Labeddit
+              </Checkbox>
+            </Flex>
+          </Box>
+          <Box>
+            <div className="buttons-container">
+              <button className="primary" type="submit">
+                Cadastrar
+              </button>
+            </div>
+          </Box>
+        </Flex>
       </Formulario>
-
-      <img src={horizontalLineThick} alt="Thicker Horizontal line" />
     </MainContainer>
   );
 }
