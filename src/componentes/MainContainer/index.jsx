@@ -1,9 +1,9 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
-export const MainContainer = styled.main`
+const MainContainer = styled.main`
   width: 428px;
   height: 926px;
-  background-color: #ffffff;
+  background-color: #FFFFFF;
   margin: 0 auto;
   padding: 16px 32px;
   display: flex;
@@ -19,13 +19,9 @@ export const MainContainer = styled.main`
 
     p {
       margin: 0;
-      font-family: "IBM Plex Sans", sans-serif;
+      font-family: 'IBM Plex Sans', sans-serif;
       font-weight: 300;
     }
   }
-`;
-
-export const FooterLineImage = styled.img`
-  align-self: center;
-  margin-top: auto;
-`;
+`
+export default MainContainer

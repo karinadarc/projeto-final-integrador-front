@@ -1,96 +1,168 @@
-import { Link, useNavigate } from "react-router-dom"
-import headerLogo from "../../assets/header-logo.svg"
-import horizontalLineThick from "../../assets/horizontal-line-thick.svg"
-import { useState } from "react"
-import BASE_URL from "../../constants/BASE_URL"
-import { goToHomePage } from "../../routes/coordinator"
-import axios from "axios"
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  Link,
+  Checkbox,
+  useDisclosure,
+  Spinner,
+} from "@chakra-ui/react";
+import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Formulario from "../../componentes/Formulario";
+import HeaderPrincipal from "../../componentes/HeaderPrincipal";
+import MainContainer from "../../componentes/MainContainer";
+import BASE_URL from "../../constants/BASE_URL";
+import { goToHomePage } from "../../routes/coordinator";
+import ModalMessage from "../../componentes/ModalMessage";
 
 function SignupPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [mensagem, setMensagem] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const [form, setForm] = useState({
-    username: "",
+    apelido: "",
     email: "",
     password: "",
-    acceptEmail: false
-  })
+    acceptEmail: false,
+  });
 
   const onChangeForm = (event) => {
-    setForm({...form, [event.target.name]: event.target.value})
-  }
+    setForm({ ...form, [event.target.name]: event.target.value });
+  };
 
   const signup = (event) => {
-    event.preventDefault()
+    event.preventDefault();
+
+    setIsLoading(true);
 
     const body = {
-      username: form.username,
+      apelido: form.apelido,
       email: form.email,
-      password: form.password
-    }
+      password: form.password,
+    };
 
-    axios.post(BASE_URL + "/users/signup", body)
+    axios
+      .post(BASE_URL + "/users/signup", body)
       .then((res) => {
-        window.localStorage.setItem("token-labeddit", res.data.token)
-        goToHomePage(navigate)
+        window.localStorage.setItem("token-integrador", res.data.token);
+        goToHomePage(navigate);
       })
       .catch((err) => {
-        console.log(err)
+        setMensagem(err.response.data.error);
+        onOpen();
       })
-  }
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
   return (
-    <main>
-      <header>
-        <img src={headerLogo} alt="Labeddit logo" />
-        <Link to={"/login"}>Entrar</Link>
-      </header>
+    <MainContainer>
+      <HeaderPrincipal
+        exibirX={false}
+        texto={"Entrar"}
+        rotaTexto={"/login"}
+      ></HeaderPrincipal>
 
-      <h1>Olá, boas vindas ao LabEddit ;)</h1>
+      <Heading marginBottom={"30px"} marginTop={"10px"} size={"lg"}>
+        Olá, boas vindas ao LabEddit ;)
+      </Heading>
 
-      <form onSubmit={signup}>
-        <input
-          name="username"
-          value={form.username}
-          type="text"
-          placeholder="Apelido"
-          onChange={onChangeForm}
-          autoComplete="off"
-        />
-
-        <input
-          name="email"
-          value={form.email}
-          type="text"
-          placeholder="E-mail"
-          onChange={onChangeForm}
-          autoComplete="off"
-        />
-
-        <input
-          name="password"
-          value={form.password}
-          type="password"
-          placeholder="Senha"
-          onChange={onChangeForm}
-        />
-
-        <section>
-          <h2>Ao continuar, você concorda com o nosso Contrato de usuário e nossa Política de Privacidade</h2>
-          <input
-            name="acceptEmail"
-            value={form.acceptEmail}
-            type="checkbox"
-            onChange={onChangeForm}
+      {isLoading && (
+        <Flex justifyContent={"center"}>
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="orange"
+            size="xl"
           />
-          <label>Eu concordo em receber emails sobre coisas legais no Labeddit</label>
-        </section>
+        </Flex>
+      )}
 
-        <button type="submit">Cadastrar</button>
-      </form>
+      <ModalMessage
+        mensagem={mensagem}
+        onClose={onClose}
+        isOpen={isOpen}
+        onOpen={onOpen}
+      ></ModalMessage>
 
-      <img src={horizontalLineThick} alt="Thicker Horizontal line" />
-    </main>
-  )
+      <Formulario onSubmit={signup}>
+        <div className="inputs-container">
+          <input
+            name="apelido"
+            value={form.apelido}
+            type="text"
+            placeholder="Apelido"
+            onChange={onChangeForm}
+            autoComplete="off"
+            minLength={5}
+            required
+          />
+
+          <input
+            name="email"
+            value={form.email}
+            type="email"
+            placeholder="E-mail"
+            onChange={onChangeForm}
+            autoComplete="off"
+            required
+          />
+
+          <input
+            name="password"
+            value={form.password}
+            type="password"
+            minLength={8}
+            placeholder="Senha"
+            onChange={onChangeForm}
+            required
+          />
+        </div>
+
+        <Flex direction={"column"} gap={3}>
+          <Box>
+            <Text>
+              Ao continuar, você concorda com o nosso{" "}
+              <Link href="#" isExternal color={"orange"}>
+                Contrato de usuário
+              </Link>{" "}
+              e nossa{" "}
+              <Link href="#" isExternal color={"orange"}>
+                Política de Privacidade
+              </Link>
+            </Text>
+          </Box>
+          <Box>
+            <Flex>
+              <Checkbox
+                name="acceptEmail"
+                value={form.acceptEmail}
+                onChange={onChangeForm}
+                colorScheme="orange"
+                required
+              >
+                Eu concordo em receber emails sobre coisas legais no Labeddit
+              </Checkbox>
+            </Flex>
+          </Box>
+          <Box>
+            <div className="buttons-container">
+              <button className="primary" type="submit">
+                Cadastrar
+              </button>
+            </div>
+          </Box>
+        </Flex>
+      </Formulario>
+    </MainContainer>
+  );
 }
 
-export default SignupPage
+export default SignupPage;
