@@ -1,4 +1,13 @@
-import { Box, Flex, Heading, Text, Link, Checkbox } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  Link,
+  Checkbox,
+  useDisclosure,
+  Spinner,
+} from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,11 +16,16 @@ import HeaderPrincipal from "../../componentes/HeaderPrincipal";
 import MainContainer from "../../componentes/MainContainer";
 import BASE_URL from "../../constants/BASE_URL";
 import { goToHomePage } from "../../routes/coordinator";
+import ModalMessage from "../../componentes/ModalMessage";
 
 function SignupPage() {
   const navigate = useNavigate();
+  const [mensagem, setMensagem] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const [form, setForm] = useState({
-    username: "",
+    apelido: "",
     email: "",
     password: "",
     acceptEmail: false,
@@ -24,8 +38,10 @@ function SignupPage() {
   const signup = (event) => {
     event.preventDefault();
 
+    setIsLoading(true);
+
     const body = {
-      username: form.username,
+      apelido: form.apelido,
       email: form.email,
       password: form.password,
     };
@@ -33,11 +49,15 @@ function SignupPage() {
     axios
       .post(BASE_URL + "/users/signup", body)
       .then((res) => {
-        window.localStorage.setItem("token-labeddit", res.data.token);
+        window.localStorage.setItem("token-integrador", res.data.token);
         goToHomePage(navigate);
       })
       .catch((err) => {
-        console.log(err);
+        setMensagem(err.response.data.error);
+        onOpen();
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -53,32 +73,56 @@ function SignupPage() {
         Olá, boas vindas ao LabEddit ;)
       </Heading>
 
+      {isLoading && (
+        <Flex justifyContent={"center"}>
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="orange"
+            size="xl"
+          />
+        </Flex>
+      )}
+
+      <ModalMessage
+        mensagem={mensagem}
+        onClose={onClose}
+        isOpen={isOpen}
+        onOpen={onOpen}
+      ></ModalMessage>
+
       <Formulario onSubmit={signup}>
         <div className="inputs-container">
           <input
-            name="username"
-            value={form.username}
+            name="apelido"
+            value={form.apelido}
             type="text"
             placeholder="Apelido"
             onChange={onChangeForm}
             autoComplete="off"
+            minLength={5}
+            required
           />
 
           <input
             name="email"
             value={form.email}
-            type="text"
+            type="email"
             placeholder="E-mail"
             onChange={onChangeForm}
             autoComplete="off"
+            required
           />
 
           <input
             name="password"
             value={form.password}
             type="password"
+            minLength={8}
             placeholder="Senha"
             onChange={onChangeForm}
+            required
           />
         </div>
 
