@@ -1,6 +1,6 @@
-import GlobalStyle from "./GlobalStyles"
-import Router from "./routes/Router"
-import { ChakraProvider } from '@chakra-ui/react'
+import GlobalStyle from "./GlobalStyles";
+import Router from "./routes/Router";
+import { ChakraProvider } from "@chakra-ui/react";
 
 function App() {
   return (
@@ -8,7 +8,7 @@ function App() {
       <GlobalStyle />
       <Router />
     </ChakraProvider>
-  )
+  );
 }
 
 export default App;
