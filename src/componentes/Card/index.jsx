@@ -11,8 +11,41 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React from "react";
+import BackendService from "../../services/backend";
+import { useToast } from "@chakra-ui/react";
 
-const CardPost = ({ post }) => {
+const CardPost = ({ post, updatePostsCallback }) => {
+  const toast = useToast();
+
+  const showError = (message) => {
+    toast({
+      title: "Ops",
+      description: message,
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+      position: "top",
+    });
+  };
+
+  const handleLike = async () => {
+    try {
+      await BackendService.like(post.id);
+      updatePostsCallback();
+    } catch (error) {
+      showError(error);
+    }
+  };
+
+  const handleDislike = async () => {
+    try {
+      await BackendService.dislike(post.id);
+      updatePostsCallback();
+    } catch (error) {
+      showError(error);
+    }
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -24,12 +57,22 @@ const CardPost = ({ post }) => {
       <CardFooter>
         <HStack>
           <Box>
-            <IconButton aria-label="Likes" size="sm" icon={<ArrowUpIcon />} />
+            <IconButton
+              aria-label="Likes"
+              size="sm"
+              icon={<ArrowUpIcon />}
+              onClick={handleLike}
+            />
             {post.likes}
           </Box>
           <Spacer />
           <Box>
-            <IconButton aria-label="Likes" size="sm" icon={<ArrowDownIcon />} />
+            <IconButton
+              aria-label="Likes"
+              size="sm"
+              icon={<ArrowDownIcon />}
+              onClick={handleDislike}
+            />
             {post.dislikes}
           </Box>
           <Spacer />

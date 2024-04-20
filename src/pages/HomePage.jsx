@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useRequestData from "../Hooks/useRequestData";
 import MainContainer from "../componentes/MainContainer";
 import CardPost from "../componentes/Card";
 import { Center, Spinner, SimpleGrid, Divider } from "@chakra-ui/react";
 import HeaderPrincipal from "../componentes/HeaderPrincipal";
+import GlobalContext from "../context/GlobalContext";
 
 function HomePage() {
-  const [posts, isLoading, isError] = useRequestData(`/posts`);
+  const context = useContext(GlobalContext);
+  const { posts, setPosts, triggerLoad, setTriggerLoad } = context;
+  const [postsResponse, isLoading, isError] = useRequestData(
+    `/posts`,
+    triggerLoad
+  );
+
+  const loadPosts = () => {
+    setTriggerLoad(Date.now());
+  };
+
+  useEffect(() => {
+    setPosts(postsResponse);
+  }, [postsResponse]);
 
   return (
     <MainContainer>
@@ -19,7 +33,13 @@ function HomePage() {
           </Center>
         ) : (
           posts.map((post) => {
-            return <CardPost key={post.id} post={post}></CardPost>;
+            return (
+              <CardPost
+                key={post.id}
+                post={post}
+                updatePostsCallback={loadPosts}
+              ></CardPost>
+            );
           })
         )}
       </SimpleGrid>

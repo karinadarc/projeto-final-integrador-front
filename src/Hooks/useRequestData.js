@@ -2,8 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import BASE_URL from "../constants/BASE_URL";
 
-const useRequestData = (path) => {
-  const [data, setData] = useState({});
+const useRequestData = (path, trigger) => {
+  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
@@ -24,7 +24,7 @@ const useRequestData = (path) => {
         setIsError(true);
         console.log(error);
       });
-  }, []);
+  }, [path, trigger]);
 
   return [data, isLoading, isError];
 };
