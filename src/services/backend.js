@@ -23,7 +23,7 @@ class BackendService {
       );
       return response;
     } catch (error) {
-      throw error.response.data.error;
+      throw error.response.data.error || "Erro Inesperado";
     }
   }
 
@@ -36,7 +36,7 @@ class BackendService {
       );
       return response;
     } catch (error) {
-      throw error.response.data.error;
+      throw error.response.data.error || "Erro Inesperado";
     }
   }
 }
