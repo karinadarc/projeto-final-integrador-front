@@ -21,8 +21,8 @@ const CardPost = ({ post, updatePostsCallback }) => {
     toast({
       title: "Ops",
       description: message,
-      status: "error",
-      duration: 5000,
+      status: "warning",
+      duration: 3000,
       isClosable: true,
       position: "top",
     });
@@ -78,6 +78,7 @@ const CardPost = ({ post, updatePostsCallback }) => {
           <Spacer />
           <Box>
             <IconButton aria-label="Comment" size="sm" icon={<ChatIcon />} />
+            {post.comments}
           </Box>
         </HStack>
       </CardFooter>

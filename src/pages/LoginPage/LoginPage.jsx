@@ -3,7 +3,7 @@ import horizontalLine from "../../assets/horizontal-line.svg";
 import horizontalLineThick from "../../assets/horizontal-line-thick.svg";
 import { goToHomePage, goToSignupPage } from "../../routes/coordinator";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import axios from "axios";
 import BASE_URL from "../../constants/BASE_URL";
@@ -17,6 +17,10 @@ function LoginPage() {
   const [mensagem, setMensagem] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    localStorage.removeItem("token-integrador");
+  }, []);
 
   const [form, setForm] = useState({
     email: "",
