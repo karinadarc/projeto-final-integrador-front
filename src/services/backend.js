@@ -39,6 +39,19 @@ class BackendService {
       throw error.response.data.error || "Erro Inesperado";
     }
   }
+
+  static async novoPost(content) {
+    try {
+      let response = await axios.post(
+        `${BASE_URL}/posts`,
+        { content: content },
+        this.getOptions()
+      );
+      return response;
+    } catch (error) {
+      throw error.response.data.error || "Erro Inesperado";
+    }
+  }
 }
 
 export default BackendService;

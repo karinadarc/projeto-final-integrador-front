@@ -8,15 +8,19 @@ const useRequestData = (path, trigger) => {
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
+    let token = localStorage.getItem("token-integrador");
+    if (!token) {
+      window.location.href = "/";
+    }
+
     axios
       .get(`${BASE_URL}${path}`, {
         headers: {
-          Authorization: localStorage.getItem("token-integrador"),
+          Authorization: token,
         },
       })
       .then((response) => {
         setData(response.data);
-        //  setTimeout(() => setIsLoading(false),3000);
         setIsLoading(false);
       })
       .catch((error) => {

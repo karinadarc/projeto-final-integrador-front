@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import useRequestData from "../Hooks/useRequestData";
 import MainContainer from "../componentes/MainContainer";
 import CardPost from "../componentes/Card";
-import { Center, Spinner, SimpleGrid, Divider, Spacer } from "@chakra-ui/react";
+import { Center, Spinner, SimpleGrid, Spacer } from "@chakra-ui/react";
 import HeaderPrincipal from "../componentes/HeaderPrincipal";
 import GlobalContext from "../context/GlobalContext";
-import MyButton from "../componentes/MyButton";
+import NovoPost from "../componentes/NovoPost";
 
 function HomePage() {
   const context = useContext(GlobalContext);
@@ -25,10 +25,15 @@ function HomePage() {
 
   return (
     <MainContainer>
-      <HeaderPrincipal exibirX={false}></HeaderPrincipal>
+      <HeaderPrincipal
+        exibirX={false}
+        texto={"Logout"}
+        rotaTexto={"/login"}
+      ></HeaderPrincipal>
       <Spacer />
       <SimpleGrid marginTop={"10px"} columns={1} spacingY={"10px"}>
-        <MyButton>Adicionar novo post</MyButton>
+        <NovoPost callbackAfterSave={loadPosts}></NovoPost>
+
         {isLoading ? (
           <Center>
             <Spinner />
