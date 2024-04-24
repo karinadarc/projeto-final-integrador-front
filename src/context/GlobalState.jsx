@@ -1,15 +1,24 @@
+import { useToast } from "@chakra-ui/react";
 import GlobalContext from "./GlobalContext";
-import { useState } from "react";
 
 const GlobalState = ({ children }) => {
-  const [triggerLoad, setTriggerLoad] = useState(0);
-  const [posts, setPosts] = useState([]);
-  const dataContext = {
-    posts,
-    setPosts,
-    triggerLoad,
-    setTriggerLoad,
+  const toast = useToast();
+
+  const showError = (message) => {
+    toast({
+      title: "Ops",
+      description: message,
+      status: "warning",
+      duration: 3000,
+      isClosable: true,
+      position: "top",
+    });
   };
+
+  const dataContext = {
+    showError,
+  };
+
   return (
     <GlobalContext.Provider value={dataContext}>
       {children}

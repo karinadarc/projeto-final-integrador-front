@@ -13,9 +13,12 @@ import {
 import React from "react";
 import BackendService from "../../services/backend";
 import { useToast } from "@chakra-ui/react";
+import { goToCommentsPage } from "../../routes/coordinator";
+import { useNavigate } from "react-router-dom";
 
 const CardPost = ({ post, updatePostsCallback }) => {
   const toast = useToast();
+  const navigator = useNavigate();
 
   const showError = (message) => {
     toast({
@@ -44,6 +47,10 @@ const CardPost = ({ post, updatePostsCallback }) => {
     } catch (error) {
       showError(error);
     }
+  };
+
+  const handleComment = async () => {
+    goToCommentsPage(navigator, post.id);
   };
 
   return (
@@ -77,7 +84,12 @@ const CardPost = ({ post, updatePostsCallback }) => {
           </Box>
           <Spacer />
           <Box>
-            <IconButton aria-label="Comment" size="sm" icon={<ChatIcon />} />
+            <IconButton
+              aria-label="Comment"
+              size="sm"
+              icon={<ChatIcon />}
+              onClick={handleComment}
+            />
             {post.comments}
           </Box>
         </HStack>

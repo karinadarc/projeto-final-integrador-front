@@ -14,6 +14,11 @@ class BackendService {
     };
   }
 
+  static handleRequestError(error) {
+    console.error(error);
+    throw error.response.data.error || "Erro Inesperado";
+  }
+
   static async like(postId) {
     try {
       let response = await axios.put(
@@ -23,7 +28,7 @@ class BackendService {
       );
       return response;
     } catch (error) {
-      throw error.response.data.error || "Erro Inesperado";
+      handleRequestError(error);
     }
   }
 
@@ -36,7 +41,7 @@ class BackendService {
       );
       return response;
     } catch (error) {
-      throw error.response.data.error || "Erro Inesperado";
+      handleRequestError(error);
     }
   }
 
@@ -49,7 +54,28 @@ class BackendService {
       );
       return response;
     } catch (error) {
-      throw error.response.data.error || "Erro Inesperado";
+      handleRequestError(error);
+    }
+  }
+
+  static async getComments(postId) {
+    try {
+      let response = await axios.get(
+        `${BASE_URL}/postcomments/${postId}`,
+        this.getOptions()
+      );
+      return response.data;
+    } catch (error) {
+      handleRequestError(error);
+    }
+  }
+
+  static async getPosts() {
+    try {
+      let response = await axios.get(`${BASE_URL}/posts/`, this.getOptions());
+      return response.data;
+    } catch (error) {
+      handleRequestError(error);
     }
   }
 }
