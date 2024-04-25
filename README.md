@@ -37,6 +37,9 @@ O Labook é uma rede social com o objetivo de promover a conexão e interação 
 
 - [Front End Link](https://projeto-final-integrador-front.onrender.com)
 
+> [!IMPORTANT]
+> O acesso pode demorar alguns segundos na primeira requisição devido a camada gratuita do render
+
 - [Documentação Postman de todos os endpoints](https://documenter.getpostman.com/view/28315573/2sA35HXgjA)
 - [Render Enpoint Backend](https://integrador-back-uk8c.onrender.com)
 
@@ -46,6 +49,11 @@ O Labook é uma rede social com o objetivo de promover a conexão e interação 
   - [x] Criar Conta
   - [x] Criar post
   - [x] Responder post / Adicionar commentario
+
+![Tela login](./docs/tela_login.png)
+![Tela cadastro](./docs/tela_cadastro.png)
+![Tela home](./docs/tela_home.png)
+![Tela comentarios](./docs/tela_comentarios.png)
 
 ## :rocket: Tecnologias
 
