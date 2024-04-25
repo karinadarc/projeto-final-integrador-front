@@ -14,6 +14,12 @@ class BackendService {
     };
   }
 
+  static handleRequestError(error) {
+    const message = error.response.data.error || "Erro Inesperado";
+    console.error(message);
+    throw message;
+  }
+
   static async like(postId) {
     try {
       let response = await axios.put(
@@ -23,7 +29,7 @@ class BackendService {
       );
       return response;
     } catch (error) {
-      throw error.response.data.error || "Erro Inesperado";
+      this.handleRequestError(error);
     }
   }
 
@@ -36,7 +42,7 @@ class BackendService {
       );
       return response;
     } catch (error) {
-      throw error.response.data.error || "Erro Inesperado";
+      this.handleRequestError(error);
     }
   }
 
@@ -49,7 +55,67 @@ class BackendService {
       );
       return response;
     } catch (error) {
-      throw error.response.data.error || "Erro Inesperado";
+      this.handleRequestError(error);
+    }
+  }
+
+  static async getComments(postId) {
+    try {
+      let response = await axios.get(
+        `${BASE_URL}/postcomments/${postId}`,
+        this.getOptions()
+      );
+      return response.data;
+    } catch (error) {
+      this.handleRequestError(error);
+    }
+  }
+
+  static async getPosts() {
+    try {
+      let response = await axios.get(`${BASE_URL}/posts/`, this.getOptions());
+      return response.data;
+    } catch (error) {
+      this.handleRequestError(error);
+    }
+  }
+
+  static async likeComment(commentId) {
+    try {
+      let response = await axios.put(
+        `${BASE_URL}/postcomments/${commentId}/like`,
+        { like: true },
+        this.getOptions()
+      );
+      return response;
+    } catch (error) {
+      this.handleRequestError(error);
+    }
+  }
+
+  static async dislikeComment(commentId) {
+    try {
+      let response = await axios.put(
+        `${BASE_URL}/postcomments/${commentId}/like`,
+        { like: false },
+        this.getOptions()
+      );
+      return response;
+    } catch (error) {
+      this.handleRequestError(error);
+    }
+  }
+
+  static async novoComment(content, postId) {
+    try {
+      let response = await axios.post(
+        `${BASE_URL}/postcomments/${postId}`,
+        { content: content },
+        this.getOptions()
+      );
+      return response;
+    } catch (error) {
+      this.handleRequestError(error);
     }
   }
 }

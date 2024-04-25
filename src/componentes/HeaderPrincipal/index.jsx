@@ -7,9 +7,13 @@ const HeaderPrincipal = ({ exibirX, rotaTexto, texto }) => {
   return (
     <Box>
       <Flex bg="#EDEDED">
-        <Box w="33.33%" h="10">
-          {exibirX ? "X" : ""}
-        </Box>
+        <Flex w="33.33%" h="10" alignItems="center" marginLeft="5%">
+          {exibirX && (
+            <LinkChakra as={Link} color="Gray" to={"/home"}>
+              <strong>X</strong>
+            </LinkChakra>
+          )}
+        </Flex>
         <Spacer />
         <Flex w="33.33%" h="10" justifyContent="center">
           <img src={headerLogo} alt="Labeddit logo" />
