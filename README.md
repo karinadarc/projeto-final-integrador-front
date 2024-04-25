@@ -1,4 +1,4 @@
-<h1 align="center">Integrador Back</h1>
+<h1 align="center">Integrador Front - Labeddit</h1>
 
 <p align="center">
   <img alt="Principal linguagem do projeto" src="https://img.shields.io/github/languages/top/karinadarc/projeto-final-integrador-front">
