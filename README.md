@@ -1,11 +1,9 @@
-<h1 align="center">Integrador Back</h1>
+<h1 align="center">Integrador Front - Labeddit</h1>
 
 <p align="center">
   <img alt="Principal linguagem do projeto" src="https://img.shields.io/github/languages/top/karinadarc/projeto-final-integrador-front">
 
   <img alt="Tamanho do repositório" src="https://img.shields.io/github/repo-size/karinadarc/projeto-final-integrador-front">
-
-  <img alt="Licença" src="https://img.shields.io/github/license/karinadarc/projeto-final-integrador-front">
 
 </p>
 
@@ -27,21 +25,28 @@ O Labook é uma rede social com o objetivo de promover a conexão e interação 
 
 ## :sparkles: Funcionalidades
 
-:heavy_check_mark: Cadastro de Usuários;\
-:heavy_check_mark: Autenticação;\
-:heavy_check_mark: Cadastro, Lista, Edição e Remoção de Posts;\
-:heavy_check_mark: Função para curtir e descurtir posts;\
-:heavy_check_mark: Deploy no render;\
+:heavy_check_mark: Respeitar o layout do Figmas;\
+:heavy_check_mark: Uso do ReactJS;\
+:heavy_check_mark: Deploy no Render;\
+:heavy_check_mark: Documentação;\
 
-### Lista de requisitos
+## Links
 
-- [Front End Link](https://projeto-final-integrador-front.onrender.com)
+### Repositórios
+
+- [Repositório Frontend](https://github.com/karinadarc/projeto-final-integrador-front)
+- [Repositório Backend](https://github.com/karinadarc/integrador-back)
+
+### Deploys
+
+- [Deploy - Front End](https://projeto-final-integrador-front.onrender.com)
+- [Deploy - Backend Render](https://integrador-back-uk8c.onrender.com)
+- [Documentação Postman](https://documenter.getpostman.com/view/28315573/2sA35HXgjA)
 
 > [!IMPORTANT]
 > O acesso pode demorar alguns segundos na primeira requisição devido a camada gratuita do render
 
-- [Documentação Postman de todos os endpoints](https://documenter.getpostman.com/view/28315573/2sA35HXgjA)
-- [Render Enpoint Backend](https://integrador-back-uk8c.onrender.com)
+### Lista de requisitos
 
 - Telas
 
