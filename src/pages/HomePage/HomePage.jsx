@@ -1,13 +1,16 @@
+import { Center, Spacer, Spinner, VStack } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
-import MainContainer from "../../componentes/MainContainer";
+import { useNavigate } from "react-router-dom";
 import CardPost from "../../componentes/Card";
-import { Center, Spinner, SimpleGrid, Spacer, VStack } from "@chakra-ui/react";
 import HeaderPrincipal from "../../componentes/HeaderPrincipal";
-import GlobalContext from "../../context/GlobalContext";
+import MainContainer from "../../componentes/MainContainer";
 import NovoPost from "../../componentes/NovoPost";
+import GlobalContext from "../../context/GlobalContext";
+import { goToCommentsPage } from "../../routes/coordinator";
 import BackendService from "../../services/backend";
 
 function HomePage() {
+  const navigate = useNavigate();
   const { showError } = useContext(GlobalContext);
   const [isLoading, setIsLoading] = useState(true);
   const [posts, setPosts] = useState([]);
@@ -21,6 +24,28 @@ function HomePage() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleLike = async (post) => {
+    try {
+      await BackendService.like(post.id);
+      loadPosts();
+    } catch (error) {
+      showError(error);
+    }
+  };
+
+  const handleDislike = async (post) => {
+    try {
+      await BackendService.dislike(post.id);
+      loadPosts();
+    } catch (error) {
+      showError(error);
+    }
+  };
+
+  const handleComment = async (post) => {
+    goToCommentsPage(navigate, post.id);
   };
 
   useEffect(() => {
@@ -47,8 +72,20 @@ function HomePage() {
             return (
               <CardPost
                 key={post.id}
-                post={post}
-                updatePostsCallback={loadPosts}
+                creatorName={post.creator.creatorName}
+                content={post.content}
+                likes={post.likes}
+                dislikes={post.dislikes}
+                comments={post.comments}
+                handleLike={() => {
+                  handleLike(post);
+                }}
+                handleDislike={() => {
+                  handleDislike(post);
+                }}
+                handleComment={() => {
+                  handleComment(post);
+                }}
               ></CardPost>
             );
           })
